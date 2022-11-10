@@ -6,6 +6,7 @@ export class PokemonEntityToAggregateConverter
   implements IConvertForApplicationPort<Pokemon, PokemonA>
 {
   convert(data: Pokemon): PokemonA {
+    if (!data) return null;
     return {
       id: data.id,
       name: data.name

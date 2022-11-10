@@ -27,4 +27,9 @@ describe('PokedexUseCase', () => {
     expect(assert.name).toEqual(pikatchu.name);
     expect(assert.id).toEqual(pikatchu.id);
   });
+
+  it('"" should return null', async () => {
+    const assert = await intercator.getByName('');
+    expect(assert).toEqual(null);
+  });
 });
