@@ -62,3 +62,25 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Docker
+
+you can run tests on docker by using script :
+
+windows
+```bash
+testscript.ps1
+```
+linux
+```bash
+testscript.bash
+```
+you can run server on docker by using script :
+windows
+```bash
+prodscript.ps1
+```
+linux
+```bash
+prodscript.bash
+```
