@@ -8,7 +8,7 @@ export class PokedexGetQuery {
 export class PokedexGetQueryBuilder implements IMBuilder<PokedexGetQuery> {
   private _name: string;
   addName(name: string): PokedexGetQueryBuilder {
-    this._name = name.toLowerCase();
+    if (name) this._name = name.toLowerCase();
     return this;
   }
 

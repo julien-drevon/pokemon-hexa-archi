@@ -32,4 +32,14 @@ describe('PokedexUseCase', () => {
     const assert = await intercator.getByName('');
     expect(assert).toEqual(null);
   });
+
+  it('null should return null', async () => {
+    const assert = await intercator.getByName(null);
+    expect(assert).toEqual(null);
+  });
+
+  it('undefined should return null', async () => {
+    const assert = await intercator.getByName(undefined);
+    expect(assert).toEqual(null);
+  });
 });
