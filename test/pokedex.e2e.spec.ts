@@ -2,15 +2,22 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { PokedexModule } from '../src/pokedex.module';
+import { PokedexProdModule } from '../src/pokedex.prod.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [PokedexModule]
-    }).compile();
-
+    let moduleFixture: TestingModule;
+    if (process.env.NODE_ENV.toLowerCase() === 'e2e') {
+      moduleFixture = await Test.createTestingModule({
+        imports: [PokedexProdModule]
+      }).compile();
+    } else {
+      moduleFixture = await Test.createTestingModule({
+        imports: [PokedexModule]
+      }).compile();
+    }
     app = moduleFixture.createNestApplication();
     await app.init();
   });
@@ -23,7 +30,6 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET NoInteractorPokedex/byName/pikatchu)', () => {
-    //getByName
     return request(app.getHttpServer())
       .get('/NoInteractorPokedex/byName/pikatchu')
       .expect(200)
