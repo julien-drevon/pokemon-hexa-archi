@@ -1,0 +1,49 @@
+version: '3.4'
+
+#networks: {stack: {}}
+networks:
+  #sonarnet:
+    # reverseproxy:
+    #   external: true
+        
+    cicdnetwork:
+      driver: bridge
+    #external: true
+
+    pokedex:
+       driver: bridge
+
+services:
+  pokedex-e2e:
+    build :
+      dockerfile: ./DockerfileDev
+    ports:
+      - 3001:3000
+    networks:
+      - pokedex
+    depends_on:
+      - db       
+  
+
+  db:
+    image: postgres
+    networks:
+      - pokedex
+    env_file:
+      - env-file.md     
+    ports:
+      - 7563:5432
+    # environment:
+    #   POSTGRES_USER: sonar
+    #   POSTGRES_PASSWORD: sonar
+    volumes:
+      - type: bind
+        source: .\postgresql\
+        target: /var/lib/postgresql 
+      - type: bind
+        source: .\postgresql\data
+        target: /var/lib/postgresql/data
+#volumes:
+
+  # postgresql:
+  # postgresql_data:

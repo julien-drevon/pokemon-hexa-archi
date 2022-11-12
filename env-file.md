@@ -1,0 +1,5 @@
+# OsmExtract
+
+POSTGRES_USER=pokedex
+POSTGRES_PASSWORD=p0kedeX!
+PGPASSWORD=p0kedeX!
