@@ -22,7 +22,9 @@ services:
     networks:
       - pokedex
     depends_on:
-      - db       
+      - db 
+    environment:
+      - NODE_ENV=e2e      
   
 
   db:
@@ -38,10 +40,10 @@ services:
     #   POSTGRES_PASSWORD: sonar
     volumes:
       - type: bind
-        source: .\postgresql\
+        source: ./postgresql/
         target: /var/lib/postgresql 
       - type: bind
-        source: .\postgresql\data
+        source: ./postgresqldata
         target: /var/lib/postgresql/data
 #volumes:
 

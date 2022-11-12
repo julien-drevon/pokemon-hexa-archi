@@ -9,7 +9,7 @@ describe('AppController (e2e)', () => {
 
   beforeEach(async () => {
     let moduleFixture: TestingModule;
-    if (process.env.NODE_ENV === 'docker') {
+    if (process.env.NODE_ENV.toLowerCase() === 'e2e') {
       moduleFixture = await Test.createTestingModule({
         imports: [PokedexProdModule]
       }).compile();

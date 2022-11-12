@@ -18,10 +18,10 @@ import { GlobalInterceptor } from './application/nest/GlobalInterceptor';
       provide: 'logger',
       useValue: console
     },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: GlobalInterceptor
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: GlobalInterceptor
+    // },
     {
       provide: 'IConvertPokemonToPortAggregate',
       useClass: PokemonEntityToAggregateConverter
