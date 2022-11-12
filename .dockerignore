@@ -5,3 +5,5 @@ npm-debug.log
 dist
 postgresql
 postgresqldata
+**/*.ps1
+**/*.bash
