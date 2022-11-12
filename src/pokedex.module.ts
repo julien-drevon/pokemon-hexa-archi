@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PokemonEntityToAggregateConverter } from './application/converters/PokemonEntityToAggregateConverter';
-import { MemoryProvideGetPokedex } from './application/ports/secondary/MemoryProvidePokedex';
+import { PokedexMemoryProvider } from './application/ports/secondary/PokedexMemoryProvider';
 import { Pokemon } from './domaine/Pokemon';
 import { NoInteractorPokedexController } from './NoInteractorPokedex.controller';
 import { PokemonA } from './application/domaine/pokemonA';
@@ -9,6 +9,9 @@ import { InteractorPokedexController } from './InteractorPokedex.controlle';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalInterceptor } from './application/nest/GlobalInterceptor';
 
+const pokemonMemoryProvider = new PokedexMemoryProvider([
+  new Pokemon(1, 'pikatchu')
+]);
 @Module({
   imports: [],
   controllers: [NoInteractorPokedexController, InteractorPokedexController],
@@ -28,8 +31,18 @@ import { GlobalInterceptor } from './application/nest/GlobalInterceptor';
     },
     {
       provide: 'IProvideGetPokedex',
-      useValue: new MemoryProvideGetPokedex([new Pokemon(1, 'pikatchu')])
+      useExisting: PokedexMemoryProvider
+    },
+    {
+      provide: 'IProvideAddPokedex',
+      useExisting: PokedexMemoryProvider
+    },
+    {
+      provide: PokedexMemoryProvider,
+      useValue: new PokedexMemoryProvider([new Pokemon(1, 'pikatchu')])
     }
   ]
 })
-export class PokedexModule {}
+export class PokedexModule {
+  // pokemonProvider = new PokedexMemoryProvider([new Pokemon(1, 'pikatchu')]);
+}

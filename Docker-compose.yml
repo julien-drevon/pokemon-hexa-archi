@@ -2,16 +2,10 @@ version: '3.4'
 
 #networks: {stack: {}}
 networks:
-  #sonarnet:
-    # reverseproxy:
-    #   external: true
-        
-    cicdnetwork:
-      driver: bridge
-    #external: true
-
     pokedex:
-       driver: bridge
+      external: true
+    # pokedex:
+    #    driver: bridge
 
 services:
   pokedex-e2e:
@@ -19,18 +13,19 @@ services:
       dockerfile: ./DockerfileDev
     ports:
       - 3001:3000
-    networks:
-      - pokedex
+    # networks:
+    #   - pokedex
     depends_on:
       - db 
     environment:
-      - NODE_ENV=e2e      
+      - NODE_ENV=e2e 
+      - DATABASE_URL=postgresql://pokedex:p0kedeX@db:5432/pokedex     
   
 
   db:
     image: postgres
-    networks:
-      - pokedex
+    # networks:
+    #   - pokedex
     env_file:
       - env-file.md     
     ports:

@@ -4,22 +4,22 @@ import { IProvideAddPokedex } from '../../../useCases/ports/IProvideAddPokedex';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class MemoryProvideGetPokedex
+export class PokedexMemoryProvider
   implements IProvideGetPokedex, IProvideAddPokedex
 {
   private static increment: number;
 
   constructor(private pokemons: Pokemon[]) {
-    MemoryProvideGetPokedex.increment = Math.max(...pokemons.map((p) => p.id));
-    if (!MemoryProvideGetPokedex.increment) {
-      MemoryProvideGetPokedex.increment = 0;
+    PokedexMemoryProvider.increment = Math.max(...pokemons.map((p) => p.id));
+    if (!PokedexMemoryProvider.increment) {
+      PokedexMemoryProvider.increment = 0;
     }
-    MemoryProvideGetPokedex.increment++;
+    PokedexMemoryProvider.increment++;
   }
 
   async add(pokemon: Pokemon): Promise<Pokemon> {
     if (!pokemon.id) {
-      pokemon = new Pokemon(MemoryProvideGetPokedex.increment++, pokemon.name);
+      pokemon = new Pokemon(PokedexMemoryProvider.increment++, pokemon.name);
     }
     this.pokemons.push(pokemon);
     return pokemon;

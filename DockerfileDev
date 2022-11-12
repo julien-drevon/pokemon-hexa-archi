@@ -12,6 +12,7 @@ RUN npm install
 
 COPY . .
 ENV CI=true
+# RUN if ["$NODE_ENV"= "e2e"]; then npx prisma migrate dev && npx prisma db seed; fi
 #RUN npm run test
 CMD ["npm", "run" ,"test"]
 #CMD ["echo $?"]
