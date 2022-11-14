@@ -1,4 +1,4 @@
-import { MemoryProvideGetPokedex } from '../src/application/ports/secondary/MemoryProvidePokedex';
+import { PokedexMemoryProvider } from '../src/application/ports/secondary/PokedexMemoryProvider';
 import { Pokemon } from '../src/domaine/Pokemon';
 import { PokedexAddUseCase } from '../src/useCases/pokedex/PokedexAddUseCase';
 import { PokedexAllUseCase } from '../src/useCases/pokedex/PokedexAllUseCase';
@@ -89,5 +89,5 @@ describe('pokedex scenarios', () => {
 
 function createProvider(pokemons: Pokemon[]) {
   //subject = new BehaviorSubject(pokemons);
-  return new MemoryProvideGetPokedex(pokemons);
+  return new PokedexMemoryProvider(pokemons);
 }

@@ -1,8 +1,13 @@
 import { PokemonEntityToAggregateConverter } from '../src/application/converters/PokemonEntityToAggregateConverter';
 import { PokemonA } from '../src/application/domaine/pokemonA';
-import { MemoryProvideGetPokedex } from '../src/application/ports/secondary/MemoryProvidePokedex';
+import { PokedexMemoryProvider } from '../src/application/ports/secondary/PokedexMemoryProvider';
 import { Pokemon } from '../src/domaine/Pokemon';
 import { PokedexInteractor } from '../src/useCases/pokedex/PokedexInteractor';
+import {
+  PokedexPrismaProvider,
+  PrismaService
+} from '../src/application/ports/secondary/PokedexPrismaProvider';
+import { PokemonDbToAggregateConverter } from '../src/application/converters/PokemonDbToAggregateConverter';
 
 describe('PokedexUseCase', () => {
   const bulbizare = new Pokemon(1, 'bulbizare');
@@ -10,10 +15,24 @@ describe('PokedexUseCase', () => {
   let intercator: PokedexInteractor<PokemonA>;
 
   beforeEach(() => {
-    intercator = new PokedexInteractor<PokemonA>(
-      new PokemonEntityToAggregateConverter(),
-      new MemoryProvideGetPokedex([bulbizare, pikatchu])
-    );
+    if (process.env.NODE_ENV.toLowerCase() === 'e2e') {
+      const provider = new PokedexPrismaProvider(
+        new PrismaService(),
+        new PokemonDbToAggregateConverter()
+      );
+      intercator = new PokedexInteractor<PokemonA>(
+        new PokemonEntityToAggregateConverter(),
+        provider,
+        provider
+      );
+    } else {
+      const provider = new PokedexMemoryProvider([bulbizare, pikatchu]);
+      intercator = new PokedexInteractor<PokemonA>(
+        new PokemonEntityToAggregateConverter(),
+        provider,
+        provider
+      );
+    }
   });
 
   it('pikatchu should return pikatchu', async () => {
@@ -42,4 +61,14 @@ describe('PokedexUseCase', () => {
     const assert = await intercator.getByName(undefined);
     expect(assert).toEqual(null);
   });
+
+  it('create new pokemon should return pokemon witth id', async () => {
+    const assert = await intercator.add('tortank');
+    expect(assert.name).toEqual('tortank');
+    expect(assert.id).not.toEqual(0);
+  });
+
+  // it('add same pokemon name should return error',async ()=>{
+
+  // })
 });
